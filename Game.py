@@ -7,11 +7,11 @@ import random
 class Game(object):
     def __init__(self):
         print("start a new game !")
-        self.win=0
-        
+        self.win = 0
+
         # init the chess
-        self.chesses = []
-        self.init_chesses()
+        self.chess = []
+        self.init_chess()
 
         # init the table
         self.table = Table()
@@ -20,26 +20,26 @@ class Game(object):
     def __del__(self):
         print("delete the game !")
 
-    def findsteps(self, side=1):
+    def find_steps(self, side=1):
         steps = []
-        for chess in self.chesses:
+        for chess in self.chess:
             if chess.side == side:
-                steps.extend(self.findstep(chess))
+                steps.extend(self.find_step(chess))
         return steps
 
-    def findstep(self, chess):
+    def find_step(self, chess):
         x = chess.x
         y = chess.y
         steps = []
         # shuai and shi and bing
-        if chess.level == 1 or chess.level == 2 or chess.level == 7:
+        if chess.type == 1 or chess.type == 2 or chess.type == 7:
             for dx, dy in chess.moves:
                 if (x + dx, y + dy) in chess.range:
                     s, t = self.table.qipan[x + dx][y + dy]
                     if s != chess.side:
                         steps.append((x, y, dx, dy))
         # xiang
-        elif chess.level == 3:
+        elif chess.type == 3:
             for dx, dy in chess.moves:
                 if (x + dx, y + dy) in chess.range:
                     if self.table.qipan[(2 * x + dx) // 2][(2 * y + dy) // 2] != (0, 0):
@@ -49,7 +49,7 @@ class Game(object):
                     if s != chess.side:
                         steps.append((x, y, dx, dy))
         # ma
-        elif chess.level == 4:
+        elif chess.type == 4:
             for dx, dy in chess.moves:
                 if (x + dx, y + dy) in chess.range:
                     if abs(dx) > abs(dy):
@@ -65,7 +65,7 @@ class Game(object):
                     if s != chess.side:
                         steps.append((x, y, dx, dy))
         # jv
-        elif chess.level == 5:
+        elif chess.type == 5:
             towards = [(1, 0), (-1, 0), (0, 1), (0, -1)]
             for dx, dy in towards:
                 ax = x
@@ -80,13 +80,13 @@ class Game(object):
                         steps.append((x, y, ax - x, ay - y))
                         continue
                     elif s != chess.side:
-                        steps.append((x, y, ax - x,ay - y))
+                        steps.append((x, y, ax - x, ay - y))
                         break
                     else:
                         break
 
         # pao
-        elif chess.level == 6:
+        elif chess.type == 6:
             towards = [(1, 0), (-1, 0), (0, 1), (0, -1)]
             for dx, dy in towards:
                 ax = x
@@ -120,31 +120,30 @@ class Game(object):
             if self.table.qipan[x][y] == (0, 0):
                 print("no chess to move !")
             else:
-                for index, chess in enumerate(self.chesses):
+                for index, chess in enumerate(self.chess):
                     if chess.position == (x + dx, y + dy):
                         print("eat!")
-                        if chess.level==1:
-                            if chess.side==1:
-                                self.win=1
+                        if chess.type == 1:
+                            if chess.side == 1:
+                                self.win = 1
                             else:
-                                self.win=2
+                                self.win = 2
                             break
-                        self.chesses.pop(index)
+                        self.chess.pop(index)
                     if chess.position == (x, y):
                         chess.move(dx, dy)
-                        if chess.level == 7:
-                            self.crosstheriver(chess)
+                        if chess.type == 7:
+                            self.cross_the_river(chess)
                 self.table.qipan[x + dx][y + dy] = self.table.qipan[x][y]
                 self.table.qipan[x][y] = (0, 0)
-        except:
+        except Exception:
             self.table.show()
             print("something is wrong")
 
+    def cross_the_river(self, chess):
+        chess.moves = [(-1, 0), (3 - 2 * chess.side, 0), (0, 1)]
 
-    def crosstheriver(self, chess):
-        chess.moves = chess.range = [(-1, 0), (3 - 2 * chess.side, 0), (0, 1)]
-
-    def init_chesses(self):
+    def init_chess(self):
         shuai1 = Shuai(1)
         shuai2 = Shuai(2)
         shi11 = Shi(1, 1)
@@ -177,38 +176,38 @@ class Game(object):
         bing32 = Bing(3, 2)
         bing42 = Bing(4, 2)
         bing52 = Bing(5, 2)
-        self.chesses.append(shuai1)
-        self.chesses.append(shuai2)
-        self.chesses.append(shi11)
-        self.chesses.append(shi12)
-        self.chesses.append(shi21)
-        self.chesses.append(shi22)
-        self.chesses.append(xiang11)
-        self.chesses.append(xiang12)
-        self.chesses.append(xiang21)
-        self.chesses.append(xiang22)
-        self.chesses.append(ma11)
-        self.chesses.append(ma12)
-        self.chesses.append(ma21)
-        self.chesses.append(ma22)
-        self.chesses.append(jv11)
-        self.chesses.append(jv12)
-        self.chesses.append(jv21)
-        self.chesses.append(jv22)
-        self.chesses.append(pao11)
-        self.chesses.append(pao12)
-        self.chesses.append(pao21)
-        self.chesses.append(pao22)
-        self.chesses.append(bing11)
-        self.chesses.append(bing12)
-        self.chesses.append(bing21)
-        self.chesses.append(bing22)
-        self.chesses.append(bing31)
-        self.chesses.append(bing32)
-        self.chesses.append(bing41)
-        self.chesses.append(bing42)
-        self.chesses.append(bing51)
-        self.chesses.append(bing52)
+        self.chess.append(shuai1)
+        self.chess.append(shuai2)
+        self.chess.append(shi11)
+        self.chess.append(shi12)
+        self.chess.append(shi21)
+        self.chess.append(shi22)
+        self.chess.append(xiang11)
+        self.chess.append(xiang12)
+        self.chess.append(xiang21)
+        self.chess.append(xiang22)
+        self.chess.append(ma11)
+        self.chess.append(ma12)
+        self.chess.append(ma21)
+        self.chess.append(ma22)
+        self.chess.append(jv11)
+        self.chess.append(jv12)
+        self.chess.append(jv21)
+        self.chess.append(jv22)
+        self.chess.append(pao11)
+        self.chess.append(pao12)
+        self.chess.append(pao21)
+        self.chess.append(pao22)
+        self.chess.append(bing11)
+        self.chess.append(bing12)
+        self.chess.append(bing21)
+        self.chess.append(bing22)
+        self.chess.append(bing31)
+        self.chess.append(bing32)
+        self.chess.append(bing41)
+        self.chess.append(bing42)
+        self.chess.append(bing51)
+        self.chess.append(bing52)
         # print(str(len(self.chesses)) + "chesses added !")
 
 

@@ -1,4 +1,3 @@
-
 side_empty = 0
 side_red = 1
 side_blue = 2
@@ -20,16 +19,16 @@ class Table(object):
         self.step = 0
         self.qipan = []
         # 8x9 (side,type)
-        self.youzi = [(0, 0), (8, 0), (8, 9), (0, 9), (1, 0), (7, 0), (7, 9), (1, 9), (2, 0), (6, 0), (6, 9), (2, 9),
-                      (3, 0), (5, 0), (5, 9), (3, 9), (4, 0), (4, 9), (0, 3), (8, 3), (8, 6), (0, 6), (2, 3), (6, 3),
-                      (6, 6), (2, 6), (4, 3), (4, 6), (1, 2), (7, 2), (7, 7), (1, 7)]
+        self.have_chess = [(0, 0), (8, 0), (8, 9), (0, 9), (1, 0), (7, 0), (7, 9), (1, 9), (2, 0), (6, 0), (6, 9),
+                           (2, 9), (3, 0), (5, 0), (5, 9), (3, 9), (4, 0), (4, 9), (0, 3), (8, 3), (8, 6), (0, 6),
+                           (2, 3), (6, 3), (6, 6), (2, 6), (4, 3), (4, 6), (1, 2), (7, 2), (7, 7), (1, 7)]
         for i in range(9):
             a = []
             for j in range(10):
                 a.append((side_empty, type_empty))
             self.qipan.append(a)
-        for x, y in self.youzi:
-            self.init_qizi(x, y)
+        for x, y in self.have_chess:
+            self.init_chess(x, y)
 
     def __del__(self):
         print("delete the table !")
@@ -83,7 +82,7 @@ class Table(object):
             print("")
         print("\n")
 
-    def init_qizi(self, x, y):
+    def init_chess(self, x, y):
         t = 0
         s = 0
         if x == 0 or x == 8:

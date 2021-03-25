@@ -1,7 +1,20 @@
+"""
+positions: the position of the whole chessboard
+"""
 positions = []
 for i in range(9):
     for j in range(10):
         positions.append((i, j))
+
+'''
+Chess: basic class of chessman
+x: coord in x axis
+y: coord in y axis
+position: position on the board
+side: side of the chess, red or black 0 stands for red and 1 stands for black
+type: type of the chess, 7 kind in total
+ 
+'''
 
 
 class Chess(object):
@@ -11,20 +24,21 @@ class Chess(object):
         self.y = 0
         self.position = (0, 0)
         self.side = 0
-        self.level = 0
+        self.type = 0
         self.range = positions
 
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
-        self.position = (self.x,self.y)
+        self.position = (self.x, self.y)
+
 
 class Shuai(Chess):
 
     def __init__(self, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 1
+        self.type = 1
         self.moves = [(0, 1), (0, -1), (1, 0), (-1, 0)]
         if self.side == 1:
             self.x = 4
@@ -43,7 +57,7 @@ class Shi(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 2
+        self.type = 2
         self.num = num
         self.moves = [(1, 1), (-1, -1), (1, -1), (-1, 1)]
         if self.side == 1:
@@ -73,7 +87,7 @@ class Xiang(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 3
+        self.type = 3
         self.num = num
         self.moves = [(2, 2), (-2, -2), (2, -2), (-2, 2)]
         if self.side == 1:
@@ -103,7 +117,7 @@ class Ma(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 4
+        self.type = 4
         self.num = num
         self.moves = [(1, 2), (1, -2), (2, -1), (2, -1), (-1, 2), (-1, -2), (-2, 1), (-2, -1)]
         if self.side == 1:
@@ -131,7 +145,7 @@ class Jv(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 5
+        self.type = 5
         self.num = num
         if self.side == 1:
             if num == 1:
@@ -158,7 +172,7 @@ class Pao(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 6
+        self.type = 6
         self.num = num
         if self.side == 1:
             if num == 1:
@@ -185,7 +199,7 @@ class Bing(Chess):
     def __init__(self, num, side=1):
         Chess.__init__(self)
         self.side = side
-        self.level = 7
+        self.type = 7
         self.num = num
 
         if side == 1:
